@@ -22,7 +22,7 @@ def get_html(url):
 def get_pdf_text(url):
     arxiv_id = url[22:]
     url = "https://arxiv.org/pdf/" + arxiv_id + ".pdf"
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     # Ensure the request was successful
     if response.status_code == 200:
         # Step 2: Converting the PDF to a more readable format
