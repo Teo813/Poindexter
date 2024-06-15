@@ -1,16 +1,13 @@
-import slack
 import openai
 import os
 import re
 from pathlib import Path
 from dotenv import load_dotenv
-from flask import Flask
-from slackeventsapi import SlackEventAdapter
-import pandas as pd
 import urllib.request
-import requests
 import PyPDF2
 from io import BytesIO
+from security import safe_requests
+
 env_path = Path('.')/'.env'
 load_dotenv(dotenv_path=env_path)
 openai.api_key = token=os.environ['CHAT_TOKEN']
@@ -22,7 +19,7 @@ def get_html(url):
 def get_pdf_text(url):
     arxiv_id = url[22:]
     url = "https://arxiv.org/pdf/" + arxiv_id + ".pdf"
-    response = requests.get(url)
+    response = safe_requests.get(url)
     # Ensure the request was successful
     if response.status_code == 200:
         # Step 2: Converting the PDF to a more readable format
